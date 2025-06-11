@@ -2,28 +2,23 @@ import React, { useEffect } from 'react'
 import Navbar from '../shared/Navbar'
 import ApplicantsTable from './ApplicantsTable'
 import axios from 'axios'
-import { toast } from 'sonner'
+import { APPLICATION_API_END_POINT } from '@/utils/constant'
 import { useParams } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { setAllApplicants } from '@/redux/applicationSlice'
 
 const Applicants = () => {
     const params = useParams()
-    const id = params.id;
     const dispatch = useDispatch()
     const { applicants } = useSelector(store => store.application)
 
     useEffect(() => {
         const fetchAllApplicants = async () => {
             try {
-                axios.defaults.withCredentials = true;
-                const res = await axios.get(`https://job-portal-5yfd.vercel.app/api/v1/application/${params.id}/applicants`, { withCredentials: true })
-                if (res.data.success) {
-                    dispatch(setAllApplicants(res.data.job))
-                }
+                const res = await axios.get(`${APPLICATION_API_END_POINT}/${params.id}/applicants`, { withCredentials: true })
+                dispatch(setAllApplicants(res.data.job))
             } catch (error) {
-                console.error(error);
-                toast.error(error.response.data.message);
+                console.error(error)
             }
         }
         fetchAllApplicants()
