@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(urlencoded({extended:true}));
 app.use(cookieParser());
 const corsOptions = {
-    origin:'http://localhost:5173',
+    origin:'job-portal-production-3aed.up.railway.app',
     credentials:true
 }
 
